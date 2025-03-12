@@ -44,3 +44,26 @@ issue tracker link available in the sample README file.
 [WorkManagerSample](https://github.com/googlesamples/android-architecture-components/tree/master/WorkManagerSample)
 - Example of benchmarking asynchronously scheduled background work
 
+
+// Add a specific media item.
+ContentResolver resolver = getApplicationContext()
+        .getContentResolver();
+
+// Find all audio files on the primary external storage device.
+Uri audioCollection;
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+    audioCollection = MediaStore.Audio.Media
+            .getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+} else {
+    audioCollection = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+}
+
+// Publish a new song.
+ContentValues newSongDetails = new ContentValues();
+newSongDetails.put(MediaStore.Audio.Media.DISPLAY_NAME,
+        "My Song.mp3");
+
+// Keep a handle to the new song's URI in case you need to modify it
+// later.
+Uri myFavoriteSongUri = resolver
+        .insert(audioCollection, newSongDetails);
