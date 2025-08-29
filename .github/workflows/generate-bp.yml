@@ -1,6 +1,8 @@
 name: Generate Baseline Profiles
 
 on:
+  # We ONLY want to build baseline profiles for pushes on main.
+  # Do not trigger on "pull_request" because it takes too much time and resources.
   push:
     branches: [ main ]
   workflow_dispatch:
@@ -52,7 +54,7 @@ jobs:
           distribution: "zulu"
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
           gradle-home-cache-cleanup: true
 
@@ -77,4 +79,3 @@ jobs:
         with:
           name: "Production App"
           path: MacrobenchmarkSample/app/build/outputs/apk/release/*.apk
-      
